@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+
+import Button from "./components/Button";
+import { increment, decrement } from "./redux/action";
 
 function App() {
+  const value = useSelector((state) => state.count);
+  const dispatch = useDispatch();
+  const handleClicked = (value) => {
+    if (value === "increase") {
+      dispatch(increment(1));
+    } else {
+      dispatch(decrement(1));
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 data-testid="h1-tag">Counter</h1>
+      <h5 data-testid="currentValue">{value}</h5>
+      <Button
+        increase="increase"
+        clicked={() => {
+          handleClicked("increase");
+        }}
+      />
+      <Button
+        increase={"decrease"}
+        clicked={() => {
+          handleClicked("decrease");
+        }}
+      />
     </div>
   );
 }
